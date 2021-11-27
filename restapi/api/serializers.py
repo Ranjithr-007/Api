@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Teacher
+# from .models import Booking
 
 User=get_user_model()
 
@@ -31,7 +31,7 @@ class UserRegister(serializers.ModelSerializer):
         return reg
 
 
-class TeacherSerializer(serializers.ModelSerializer):
+class BookingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Teacher
+        # model = Booking
         fields = ["id","timestamp"]

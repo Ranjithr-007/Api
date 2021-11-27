@@ -6,13 +6,14 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 import requests
-from . models import Teacher
+from . models import *
 from rest_framework import viewsets
-from .serializers import TeacherSerializer
-
+from .serializers import BookingSerializer
+from rest_framework import status
 import datetime
 # Create your views here.
-dict = {'10.00','10.30',"11.00","11.30","12.00","12.30","1.00","1.30","2.00","2.30","3.00","3.30","4.00","4.30","5.00"}
+
+
 
 
 class register(APIView):
@@ -40,15 +41,45 @@ class welcome(APIView):
         return Response(content)
 
 
-class teacher(APIView):
-   
-    def get(self, request):
-        user = User.objects.all()
-        teacher = Teacher.objects.filter(data=timestamp)
-        if dict == 3:
-           print(True)
-        elif dict == 2 :
-            print(False)
-        serializer = TeacherSerializer(user)
-        return Response(serilizer.data)
+flag = True
+dict = {"2021-11-28 10:00","2021-11-28 10:30","2021-11-28 11:00","2021-11-28 11:30","2021-11-28 12:00","2021-11-28 12:30","2021-11-28 1:00","2021-11-28 1:30","2021-11-28 2:00","2021-11-28 2:30","2021-11-28 3:00","2021-11-28 3:30","2021-11-28 4:00","2021-11-28 4:30","2021-11-28 5:00"}
 
+message = {
+"status":True,
+"message":"Response False",
+
+}
+
+class Book_slot(APIView):
+    permission_classes = (IsAuthenticated,)
+
+
+    def get(self, request):
+        
+        response = {}
+        for item in dict:
+            booking = Booking.objects.filter(time_slot=item)
+            if booking ==  3 :
+                flag = False
+
+        response = {'item' }
+        return Response (data=response, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        time_slot = request.data(time_slot)
+        booking = Booking.objects.filter(time_slot=request.time_slot)
+
+        if booking == 2 :
+            booking = Booking.objects.create(user=request.user, time_slot=request.data.time_slot)
+        else:
+            return Response (
+            {
+                "message":"Success",
+                "status" : False,
+               
+
+                }
+        )
+            # return Response(booking)
+
+           
