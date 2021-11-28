@@ -9,13 +9,13 @@ import requests
 from . models import *
 from rest_framework import viewsets
 from .serializers import BookingSerializer
-from rest_framework import status
+from rest_framework import status 
 import datetime
 # Create your views here.
 
 
 
-
+#User Registration
 class register(APIView):
 
     def post(self,request,format=None):
@@ -32,7 +32,7 @@ class register(APIView):
             data= serializer.errors
         return Response(data)
 
-
+#Login
 class welcome(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -41,45 +41,48 @@ class welcome(APIView):
         return Response(content)
 
 
-flag = True
+
+
 dict = {"2021-11-28 10:00","2021-11-28 10:30","2021-11-28 11:00","2021-11-28 11:30","2021-11-28 12:00","2021-11-28 12:30","2021-11-28 1:00","2021-11-28 1:30","2021-11-28 2:00","2021-11-28 2:30","2021-11-28 3:00","2021-11-28 3:30","2021-11-28 4:00","2021-11-28 4:30","2021-11-28 5:00"}
 
-message = {
-"status":True,
-"message":"Response False",
 
-}
+
+response = {}
+
+
 
 class Book_slot(APIView):
-    permission_classes = (IsAuthenticated,)
+    
 
-
+    #Function for Show Teacher Availabilty
     def get(self, request):
-        
-        response = {}
+
+        permission_classes = (IsAuthenticated,)
+        flag = True
         for item in dict:
             booking = Booking.objects.filter(time_slot=item)
             if booking ==  3 :
                 flag = False
 
-        response = {'item' }
+        response = {'item':flag }
         return Response (data=response, status=status.HTTP_200_OK)
     
+    #Fuction for create slot
     def post(self, request):
+        permission_classes = (IsAuthenticated,)
+
         time_slot = request.data(time_slot)
         booking = Booking.objects.filter(time_slot=request.time_slot)
 
         if booking == 2 :
             booking = Booking.objects.create(user=request.user, time_slot=request.data.time_slot)
         else:
-            return Response (
-            {
-                "message":"Success",
-                "status" : False,
-               
+            response = {
+            'status': 'request was submitted'
+            }
+        return Response(response)
 
-                }
-        )
-            # return Response(booking)
+            
+            
 
            
