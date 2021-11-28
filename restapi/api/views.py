@@ -52,28 +52,28 @@ response = {}
 
 
 class Book_slot(APIView):
-    
+    permission_classes = (IsAuthenticated,)
 
     #Function for Show Teacher Availabilty
     def get(self, request):
 
-        permission_classes = (IsAuthenticated,)
+        
         flag = True
         for item in dict:
             booking = Booking.objects.filter(time_slot=item)
             if booking ==  3 :
                 flag = False
 
-        response = {'item':flag }
+        response = {item, flag}
+
         return Response (data=response, status=status.HTTP_200_OK)
     
     #Fuction for create slot
     def post(self, request):
-        permission_classes = (IsAuthenticated,)
 
-        time_slot = request.data(time_slot)
-        booking = Booking.objects.filter(time_slot=request.time_slot)
-
+        time_slot=request.data
+        booking = Booking.objects.filter(time_slot)
+                                     
         if booking == 2 :
             booking = Booking.objects.create(user=request.user, time_slot=request.data.time_slot)
         else:
