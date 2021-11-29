@@ -71,7 +71,7 @@ class Book_slot(APIView):
     #Fuction for find  Student Booking 
     def post(self, request):
 
-        time_slot=request.data(time_slot)
+        time_slot=request.data()
         booking = Booking.objects.filter(time_slot)
                                      
         if booking == 2 : #we can check teacher <2
