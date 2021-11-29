@@ -61,7 +61,7 @@ class Book_slot(APIView):
         flag = True
         for item in dict:
             booking = Booking.objects.filter(time_slot=item)
-            if booking ==  3 :
+            if booking ==  3 :  #check available teacher > 2
                 flag = False
 
         response = {item, flag}
@@ -71,11 +71,11 @@ class Book_slot(APIView):
     #Fuction for create slot
     def post(self, request):
 
-        time_slot=request.data
+        time_slot=request.data()
         booking = Booking.objects.filter(time_slot)
                                      
-        if booking == 2 :
-            booking = Booking.objects.create(user=request.user, time_slot=request.data.time_slot)
+        if booking == 2 : #we can check teacher <2
+            booking = Booking.objects.create(user=request.user, time_slot=request.data.time_slot) #Create booking Return student id
         else:
             response = {
             'status': 'request was submitted'
